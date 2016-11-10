@@ -1,30 +1,16 @@
-class addons
+class usap::addons inherits usap
 {
-    
-    package { 'c-shell(redhat)':
-        name        => 'tcsh',
-        provider    => 'yum'
-        } 
-    package { 'c-shell(debian)':
-        name        => 'csh',
-        provider    => 'apt'
-        
-        }
-    package { 'c-shell(suse)':
-        name        => 'tcsh',
-        provider    => 'zypper'
-       
-        }
     
      case $::osfamily {
         
-        'redhat': { package { 'c-shell(redhat)':
-                    ensure  => installed    } }
         
         'debian': { package { 'c-shell(debian)':
-                    ensure  => installed    } }
+                    name        => 'csh',
+                    provider    => 'apt',
+                    ensure      => installed    } }
 
-         default: { package { 'c-shell(suse)':
+         default: { package { 'c-shell':
+                    name        => 'tcsh',
                     ensure  => installed    } }
 
        }

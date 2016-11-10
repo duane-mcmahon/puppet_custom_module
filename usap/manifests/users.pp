@@ -1,4 +1,4 @@
-class users
+class usap::users inherits usap
 {
 
     user { 'becca':
@@ -20,9 +20,9 @@ class users
 
     user { 'fred':
         ensure  => present,
-        comment => 'usap-a2-m2 user'    
-        uid     => '10026979'
-        gid     => '1002'
+        comment => 'usap-a2-m2 user',    
+        uid     => '10026979',
+        gid     => '1002',
         groups  => [ 'trucks', 'cars' ],
         shell   => '/bin/csh',
         home    => '/home/fred',

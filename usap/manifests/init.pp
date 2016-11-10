@@ -44,5 +44,12 @@
 #
 class usap {
 
+include usap::addons
+
+include usap::groups
+
+include usap::users
+
+# include usap::services
 
 }

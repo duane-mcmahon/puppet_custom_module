@@ -1,4 +1,4 @@
-class groups
+class usap::groups inherits usap
 {
 
     group { 'sysadmin':
