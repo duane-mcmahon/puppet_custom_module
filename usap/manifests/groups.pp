@@ -1,10 +1,4 @@
-class usap::groups inherits usap
-{
-
-    group { 'sysadmin':
-        ensure => present,
-        gid => '1010'
-        }   
+class usap::groups inherits usap { 
 
     group { 'cars':
         ensure => present,
@@ -20,4 +14,9 @@ class usap::groups inherits usap
         ensure => present,
         gid => '1013'
      }
+
+    group { 'sysadmin':
+        ensure => present,
+        gid => '1014'
+        } 
 }
