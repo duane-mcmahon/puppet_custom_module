@@ -1,22 +1,63 @@
 class users
 {
 
-    user { 's3116979':
+    user { 'becca':
         ensure  => present,
-        comment => 'lab 10 test user',
-        uid     => '13116979',
-        gid     => '1010',
+        comment => 'usap-a2-m2 user',
+        uid     => '10016979',
+        gid     => '1001',
+        groups  => [ 'sysadmin', 'cars' ],
         shell   => '/bin/bash',
-        home    => '/home/sh9/S3116979',
-        managehome  => true
+        home    => '/home/becca',
+        managehome  => true,
+        password    => '$1$wEsrrz/S$ZZKqcwxhlVs2HYgdWWCG40'
     }
 
-    file { '/home/sh9/S3116979':
+    file { '/home/becca':
         ensure  => directory,
-        require => [ User['s3116979'], File['sh9'] ];
-        '/home/sh9':
-        ensure  => directory,
-        alias   => 'sh9'
+        require => [ User['becca'] ]
     }
-       
+
+    user { 'fred':
+        ensure  => present,
+        comment => 'usap-a2-m2 user'    
+        uid     => '10026979'
+        gid     => '1002'
+        groups  => [ 'trucks', 'cars' ],
+        shell   => '/bin/csh',
+        home    => '/home/fred',
+        managehome  => true,
+        password    => '$1$rsLAFqRL$bOhVj.VxPee88RL6YS1Cg0'
+        }
+    
+    file { '/home/fred':
+        ensure  => directory,
+        require => [ User['fred'] ]
+        }
+
+    user { 'wilma':
+        ensure  => present,
+        comment => 'usap-a2-m2',
+        uid     => '10036979',
+        gid     => '1003',
+        groups  => [ 'trucks', 'cars', 'ambulances' ],
+        home    => '/home/wilma',
+        managehome  => true,
+        password    => '$1$Ra4iII.f$SdE/vaCA/vsONxkguSy53/'
+        }
+    
+    file { '/home/wilma':
+        ensure  => directory, 
+        require => [ User['wilma'] ]
+        }
+    ssh_authorized_key { 'wilma@ec2-54-206-127-221.ap-southeast-2.compute.amazonaws.com':
+        ensure  => present,
+        user    => 'wilma',
+        type    => 'ssh-rsa',
+        key     => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDtgELFKnKKo1H23mD+CVAgEGeLgw3yzlgkNgD0lUZ39pPv3L4dV3uqD3pFDmRcOTYzjY5VlDErp2r0R27btaoIs1qvswFB4PRs75xOGQQeNROatqYs2DCHYAUUqFRErEQjN0ggo4jrnH9RGkpAJ+CyjiyN8ZViiO+iyAE/JSRM/X2r6PlFar8iCpiGmKV0Gw9y5osiqqg9p4YsGvkk90HIw9o2HOhq3kLRf6KL4+AsHxbljUJzC70I+rY4UFNqaubusnJDcDZbC4kyO3YAP3msv/UvoOvWpqVzXQUpp4ew2GMdO0e2MwmXdSdxiz4xxVKU3F6JfBIaKgdcryDzQ0Mj wilma@ec2-54-206-127-221.ap-southeast-2.compute.amazonaws.com'
+   
+        }
+    
+
+
 }
