@@ -17,6 +17,23 @@ class usap::groups inherits usap {
 
     group { 'sysadmin':
         ensure => present,
-        gid => '1014'
+        gid => '1010'
         } 
+    
+    group { 'becca':
+        ensure => present,
+        gid    => '1014'
+        
+        }
+
+    group { 'fred':
+        ensure  => present,
+        gid     => '1015'
+        
+        }
+
+    group { 'wilma':
+        ensure  => present,
+        gid     => '1016'
+        }
 }
