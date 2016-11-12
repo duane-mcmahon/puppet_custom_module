@@ -33,11 +33,25 @@ class usap::addons inherits usap {
 
                     }
 
-         default: { package { 'EPEL':
-                        ensure      => installed,
-                        source      => 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'
-                                               
-                        }
+         default: { file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7':
+                    owner       => root,
+                    group       => root,
+                    mode        => '0644',
+                    source      => 'puppet:///modules/usap/RPM-GPG-KEY-EPEL-7'
+
+                    }
+             
+             
+             
+                    yumrepo { 'EPEL':
+                        descr       => 'Extra Packages for Enterprise Linux',
+                        baseurl     => 'https://download.fedoraproject.org/pub/epel/7/$basearch',
+                        mirrorlist  => 'https://mirrors.fedoraproject.org/metalink?repo=testing-source-epel7&arch=$basearch',
+                        enabled  	=> true,
+                        gpgcheck    => true,
+                        gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7',
+			            require     => File[ '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7' ]
+                        }																						
 
                     package { 'c-shell':
                         name        => 'tcsh',
@@ -60,7 +74,7 @@ class usap::addons inherits usap {
                     package { 'lynx browser':
                         name    => 'lynx',
                         ensure  => installed,
-                        require => Package[ 'EPEL' ]
+                        require => Yumrepo[ 'EPEL' ]
                         
                         }
 
