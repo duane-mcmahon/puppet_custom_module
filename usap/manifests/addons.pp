@@ -5,6 +5,15 @@ class usap::addons inherits usap {
             ensure  => installed
         
          }
+    
+     package { 'terminal multiplexer':
+            name    => 'tmux',
+            ensure  => installed
+     
+         }
+
+
+
 
      case $::osfamily {
         
@@ -27,31 +36,41 @@ class usap::addons inherits usap {
                     package { 'lynx browser(debian)':
                     name        => 'lynx',
                     provider    => 'apt',
-                    ensure      => 'installed'  }
+                    ensure      => installed    }
 
+                    package { 'vim(debian)':
+                    name        => 'vim',
+                    provider    => 'apt',
+                    ensure      => installed    }                            
+
+                    package { 'gcc(debian)':
+                    name        => 'gcc',
+                    provider    => 'apt',
+                    ensure      => installed    }
+
+                    }
+
+         default: { 
                     
-
-                    }
-
-         default: { file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7':
-                    owner       => root,
-                    group       => root,
-                    mode        => '0644',
-                    source      => 'puppet:///modules/usap/RPM-GPG-KEY-EPEL-7'
-
-                    }
+                    # install  gcc
+                    exec { 'yum groupinstall Development Tools':
+                    command     => '/usr/bin/yum -y --disableexcludes=all groupinstall "Development Tools"',
+                    unless      => '/usr/bin/yum grouplist "Development Tools" | /bin/grep "^Installed"',
+                    timeout     => 600
+                    
+                        }
              
-             
-             
-                    yumrepo { 'EPEL':
-                        descr       => 'Extra Packages for Enterprise Linux',
-                        baseurl     => 'https://download.fedoraproject.org/pub/epel/7/$basearch',
-                        mirrorlist  => 'https://mirrors.fedoraproject.org/metalink?repo=testing-source-epel7&arch=$basearch',
-                        enabled  	=> true,
-                        gpgcheck    => true,
-                        gpgkey      => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7',
-			            require     => File[ '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7' ]
-                        }																						
+                    package { 'epel-release':
+                    ensure      => installed,
+                    provider    => rpm,
+                    source      => 'file:///modules/usap/epel-release-latest-7.noarch.rpm'
+                    
+                        }
+
+                    exec { 'enable optional channel (AWS)':
+                    command     => '/usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional'
+
+                        }   
 
                     package { 'c-shell':
                         name        => 'tcsh',
@@ -74,13 +93,21 @@ class usap::addons inherits usap {
                     package { 'lynx browser':
                         name    => 'lynx',
                         ensure  => installed,
-                        require => Yumrepo[ 'EPEL' ]
+                        require => Package[ 'epel-release' ]
                         
                         }
+                    
+                    package { 'vim':
+                        name    => 'vim-enhanced',
+                        ensure  => installed
+                       
+                        }
 
-       }
+                    
 
 }
 
+
+}
 
 }
