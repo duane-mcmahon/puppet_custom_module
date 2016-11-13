@@ -83,7 +83,10 @@ class usap::addons inherits usap {
                     provider    => 'apt',
                     ensure      => installed    }
 
-
+                    package { 'dia2code(debian)':
+                    name        => 'dia2code',
+                    provider    => 'apt',
+                    ensure      => 'installed'  }
 
 
                     }
@@ -104,6 +107,15 @@ class usap::addons inherits usap {
                     source      => 'file:///modules/usap/epel-release-latest-7.noarch.rpm'
                     
                         }
+# The .rpm was downloaded from here: dia2code.sourceforge.net/download.html   However i am getting 'No such file or 
+# directory when applying via puppet
+                        
+#                    package { 'dia2code(rpm)':
+#                    ensure      => installed,
+#                    provider    => rpm,
+#                    source      => 'file:///modules/usap/dia2code-0.8.3-1.x86_64.rpm'
+
+#                        }
 
                     exec { 'enable optional channel (AWS)':
                     command     => '/usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional'
@@ -140,7 +152,7 @@ class usap::addons inherits usap {
                         ensure  => installed,
                         require => Package[ 'epel-release' ]
                         
-                        }    
+                        } 
                         
                     package { 'cgdb':
                         name    => 'cgdb',
@@ -148,6 +160,15 @@ class usap::addons inherits usap {
                         require => Package[ 'epel-release' ]
                         
                         }
+
+ # There is a problem getting puppet to 'see' the .rpm fr this appliciation. Unsolved.
+
+ #                   package { 'dia2code':
+ #                       name    => 'dia2code',
+ #                       ensure  => installed,
+ #                       require => Package[ 'dia2code(rpm)' ]
+
+ #                       }
 
                     package { 'vim':
                         name    => 'vim-enhanced',
