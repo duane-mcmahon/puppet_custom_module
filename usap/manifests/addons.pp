@@ -116,9 +116,9 @@ class usap::addons inherits usap {
 #                    source      => 'file:///modules/usap/dia2code-0.8.3-1.x86_64.rpm'
 
 #                        }
-
+                    if $ec2_instance_id {     
                     exec { 'enable optional channel (AWS)':
-                    command     => '/usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional'
+                    command     => '/usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional' }
 
                         }   
 
@@ -161,7 +161,7 @@ class usap::addons inherits usap {
                         
                         }
 
- # There is a problem getting puppet to 'see' the .rpm fr this appliciation. Unsolved.
+ # There is a problem getting puppet to 'see' the .rpm for this appliciation. Unsolved.
 
  #                   package { 'dia2code':
  #                       name    => 'dia2code',
