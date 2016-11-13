@@ -12,6 +12,11 @@ class usap::addons inherits usap {
      
          }
 
+     package { 'gnu debugger (gdb)':
+            name    => 'gdb',
+            ensure  => present
+
+     }
 
 
 
@@ -47,6 +52,39 @@ class usap::addons inherits usap {
                     name        => 'gcc',
                     provider    => 'apt',
                     ensure      => installed    }
+
+                    package { 'emacs(debian)':
+                    name        => 'emacs24',
+                    provider    => 'apt',
+                    installed   => true         }
+
+                    package { 'mariadb-server(debian)':
+                    name        => 'mariadb-server',
+                    provider    => 'apt',
+                    installed   => true         }
+
+                    package { 'mariadb-server(debian)':
+                    name        => 'mariadb-client',
+                    provider    => 'apt',
+                    installed   => true         }
+
+                    package { 'sshfs(debian)':
+                    name        => 'sshfs',    
+                    provider    => 'apt',
+                    installed   => true         }
+
+                    package { 'vnc-server(debian)':
+                    name        => 'vnc4server',
+                    provider    => 'apt',
+                    installed   => true         }
+
+                    package { 'cgdb(debian)':
+                    name        => 'cdgb',
+                    provider    => 'apt',
+                    ensure      => installed    }
+
+
+
 
                     }
 
@@ -96,14 +134,53 @@ class usap::addons inherits usap {
                         require => Package[ 'epel-release' ]
                         
                         }
-                    
+
+                    package { 'sshfs':
+                        name    => 'sshfs',
+                        ensure  => installed,
+                        require => Package[ 'epel-release' ]
+                        
+                        }    
+                        
+                    package { 'cgdb':
+                        name    => 'cgdb',
+                        ensure  => installed,
+                        require => Package[ 'epel-release' ]
+                        
+                        }
+
                     package { 'vim':
                         name    => 'vim-enhanced',
                         ensure  => installed
                        
                         }
 
-                    
+                    package { 'emacs':
+                        name    => 'emacs',
+                        ensure  => installed 
+                        
+                        }
+
+                    package { 'mariadb':
+                        name    => 'mariadb',
+                        ensure  => installed 
+
+                        }
+ # The standard tool for interacting with MariaDB is the mariadb client,
+ # which installs with the mariadb-server package.
+                    package { 'mariadb-server':
+                        name    => 'mariadb-server',
+                        ensure  => installed
+
+                        }
+ 
+                    package { 'vnc-server':
+                        name    => 'tigervnc-server',
+                        ensure  => installed 
+                        
+                        }
+
+
 
 }
 
