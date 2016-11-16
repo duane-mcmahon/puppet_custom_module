@@ -108,7 +108,7 @@ class usap::addons inherits usap {
                     
                         }
                         
-                    package { 'dia2code-0.8.3-1.x86_64.rpm':
+                    package { 'dia2code':
                     ensure      => installed,
                     provider    => 'rpm',
                     source      => 'http://sourceforge.net/projects/dia2code/files/dia2code/0.8.3/dia2code-0.8.3-1.x86_64.rpm/download'
@@ -160,10 +160,10 @@ class usap::addons inherits usap {
                         }
 
 
-                    package { 'dia2code':
+                    package { 'dia2code(rhel)':
                         name    => 'dia2code',
                         ensure  => installed,
-                        require => Package[ 'dia2code-0.8.3-1.x86_64.rpm' ]
+                        require => Package[ 'dia2code' ]
 
                         }
 

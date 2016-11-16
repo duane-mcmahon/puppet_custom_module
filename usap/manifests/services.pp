@@ -18,9 +18,10 @@ service { 'sshd':
 
 
 # mariadb
-service { 'mysql':
+service { 'mariadb':
     ensure  => running,
-    enable  => true
+    enable  => true,
+    require => Package[ 'mariadb' ] 
 
 }
 
@@ -74,12 +75,12 @@ case $::osfamily {
 
                    file {'/etc/my.cnf':
                    ensure   => present,
-                   source   => '/etc/my/cnf',
+                   source   => '/etc/my.cnf',
                    owner    => 'root',
                    group    => 'root',
                    mode     => '0664',
                    require  => Package['mariadb-server'],
-                   notify   => Service['mysql']  }           
+                   notify   => Service['mariadb']  }           
                        
                        
                  }
