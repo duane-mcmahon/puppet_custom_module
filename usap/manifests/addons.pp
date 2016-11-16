@@ -103,23 +103,21 @@ class usap::addons inherits usap {
              
                     package { 'epel-release':
                     ensure      => installed,
-                    provider    => rpm,
+                    provider    => 'rpm',
                     source      => 'file:///modules/usap/epel-release-latest-7.noarch.rpm'
                     
                         }
-# The .rpm was downloaded from here: dia2code.sourceforge.net/download.html   However i am getting 'No such file or 
-# directory when applying via puppet
                         
-#                    package { 'dia2code(rpm)':
-#                    ensure      => installed,
-#                    provider    => rpm,
-#                    source      => 'file:///modules/usap/dia2code-0.8.3-1.x86_64.rpm'
+                    package { 'dia2code-0.8.3-1.x86_64.rpm':
+                    ensure      => installed,
+                    provider    => 'rpm',
+                    source      => 'http://sourceforge.net/projects/dia2code/files/dia2code/0.8.3/dia2code-0.8.3-1.x86_64.rpm/download'
+                        }
 
-#                        }
-                    if $ec2_instance_id {     
+                    if $ec2_instance_id and $operatingsystem == 'RedHat' {     
                     exec { 'enable optional channel (AWS)':
                     command     => '/usr/bin/yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional' }
-
+              
                         }   
 
                     package { 'c-shell':
@@ -161,14 +159,13 @@ class usap::addons inherits usap {
                         
                         }
 
- # There is a problem getting puppet to 'see' the .rpm for this appliciation. Unsolved.
 
- #                   package { 'dia2code':
- #                       name    => 'dia2code',
- #                       ensure  => installed,
- #                       require => Package[ 'dia2code(rpm)' ]
+                    package { 'dia2code':
+                        name    => 'dia2code',
+                        ensure  => installed,
+                        require => Package[ 'dia2code-0.8.3-1.x86_64.rpm' ]
 
- #                       }
+                        }
 
                     package { 'vim':
                         name    => 'vim-enhanced',
@@ -200,8 +197,12 @@ class usap::addons inherits usap {
                         ensure  => installed 
                         
                         }
+    
+        #  a step in the configuration process for tiger vnc
 
-
+     exec { 'configure vnc server':
+                    command     => '/usr/bin/cp /usr/lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.service', 
+                    unless      => '/usr/bin/test -f /etc/systemd/system/vncserver@.service' }
 
 }
 

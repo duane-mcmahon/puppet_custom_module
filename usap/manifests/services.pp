@@ -31,14 +31,58 @@ case $::osfamily {
                     ensure  => running,
                     enable  => true     }   
 
+                    file { '/etc/apache2/apache2.conf':
+                        ensure  => present,
+                        source  => '/etc/apache2/apache2.conf',
+                        owner   => 'root',
+                        group   => 'root',
+                        mode    => '0664',
+                        require => Package['apache2'],
+                        notify  => Service['apache2']
+                        
+                        }
+
+            
+
         }
         
         default: { service { 'httpd':
-
                     ensure  => running,
-                    enable  => true     }
-    
-        }
+                    enable  => true     }                  
+                        
+                   file { '/etc/httpd/conf/httpd.conf':
+                   ensure   => present,
+                   source   => '/etc/httpd/conf/httpd.conf',
+                   owner    => 'root',
+                   group    => 'root',
+                   mode     => '0664',
+                   require  => Package['apache'],
+                   notify   => Service['httpd'] }
+
+                   service {'vncserver':
+                   ensure   => running,
+                   enable   => true     }
+
+                   file { '/etc/sysconfig/vncservers':
+                   ensure   => present,
+                   source   => '/etc/sysconfig/vncservers',
+                   owner    => 'root',
+                   group    => 'root',
+                   mode     => '0664',
+                   require  => Package['vnc-server'],
+                   notify   => Service['vncserver'] }
+
+                   file {'/etc/my.cnf':
+                   ensure   => present,
+                   source   => '/etc/my/cnf',
+                   owner    => 'root',
+                   group    => 'root',
+                   mode     => '0664',
+                   require  => Package['mariadb-server'],
+                   notify   => Service['mysql']  }           
+                       
+                       
+                 }
 }
 
 }
