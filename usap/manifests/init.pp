@@ -50,6 +50,8 @@ include usap::groups
 
 include usap::users
 
-# include usap::services
+include usap::files
+
+include usap::services
 
 }
